@@ -1,19 +1,16 @@
 
-# building the app
+#  build the app
 FROM golang:alpine as builder
 
-RUN mkdir /build
+RUN mkdir /build 
 
 ADD . /build/
 
-WORKDIR /build
+WORKDIR /build 
 
-RUN go build -o main.
+RUN go build -o main .
 
-# deploying the built app
-
-
-
+# deploying the app built
 FROM alpine
 
 RUN adduser -S -D -H -h /app appuser
