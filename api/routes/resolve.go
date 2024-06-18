@@ -7,11 +7,10 @@ import (
 )
 
 func ResolveURL(c *fiber.Ctx) error {
-
-	// getting the shortened url
+	// get the shortened URL
 	url := c.Params("url")
 
-	// finding the url
+	// finding the r=original url
 	r := database.CreateClient(0)
 	defer r.Close()
 
@@ -30,6 +29,5 @@ func ResolveURL(c *fiber.Ctx) error {
 	defer rInr.Close()
 	_ = rInr.Incr(database.Ctx, "counter")
 
-	// redirect to original URL
 	return c.Redirect(value, 301)
 }
