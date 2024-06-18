@@ -5,6 +5,7 @@ import (
 
 	"github.com/asaskevich/govalidator"
 
+	"github.com/An-Yay/shorturl/helpers"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -40,5 +41,14 @@ func ShortenURL(c *fiber.Ctx) error {
 
 	// checking for the case where the user might be trying to shorten "localhost:3000"
 	// (can lead to infinite loops)
+
+	if !helpers.RemoveDomainError(body.URL) {
+		return c.Status(fiber.StatusServiceUnavailable).JSON(fiber.Map{
+			"error": "stop trying to break me!",
+		})
+	}
+
+	// Enforcing http
+	body.URL = helpers.EnforceHTTP(body.URL)
 
 }
